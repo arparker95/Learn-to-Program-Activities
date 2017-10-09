@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Video Player</title>
+        <script>
+            var player;
+                    
+            window.onload=function()
+            {
+                player = document.getElementById("sound");
+                document.getElementById("btnPlay").addEventListener("click", playMusic, false);
+                document.getElementById("btnPause").addEventListener("click", pauseMusic, false);
+                document.getElementById("btnStop").addEventListener("click", stopMusic, false);
+            }
+                    
+            function playMusic()
+            {
+                player.play();
+            }
+            
+            function pauseMusic()
+            {
+                player.pause();
+            }
+            
+            function stopMusic()
+            {
+                
+                player.pause();
+                player.currentTime=0;
+            }
+        </script>
+    </head>
+    <body>
+        <audio id="sound">
+            <source src="Jonah_Price-The_Tree_Song.mp3" />
+        </audio>
+        <button id="btnPlay">Play</button>
+        <button id="btnPause">Pause</button>
+        <button id="btnStop">Stop</button>
+    </body>
+</html>
