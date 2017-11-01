@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Irish Trains</title>
+        <style>
+                    .irGreen    {
+                        color: #5da033;
+                    }
+            
+                    .irOrange   {
+                        color: #f6891f;
+                    }
+        </style>
+        <script>
+            var xmlhttp;
+            
+            window.onload=function()
+            {
+                document.getElementById('btnGetTrains').addEventListener('click', getTrainInfo, false);
+                xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = recieveInfo;
+            }
+            
+            function getTrainInfo()
+                        {
+                            xmlhttp.open('GET', 'http://api.irishrail.ie/realtime/realtime.asmx/getCurrentTrainsXML', false);
+                            xmlhttp.send();
+                        }
+            
+            function recieveInfo()
+                        {
+                            if(xmlhttp.readyState==4 && xmlhttp.status == 200){
+                                var theXML = xmlhttp.responseXML.documentElement;
+                                var trains = theXML.getElementsByTagName('objTrainPositions');
+                                var out="<table>";
+                                for (i = 0; i < trains.length; i++)
+                                    {
+                                        var trainCode = trains[i].getElementsByTagName('TrainCode')[0].firstChild.nodeValue;
+                                        var direction = trains[i].getElementsByTagName('Direction')[0].firstChild.nodeValue;
+                                        var message = trains[i].getElementsByTagName('PublicMessage')[0].firstChild.nodeValue;
+                                        out += "<tr>";
+                                        out += "<td>" + trainCode + "</td><td>" + direction + "</td><td>" + message + "</td></tr>";
+                                    }
+                                out += "</table>"
+                                document.getElementById('result').innerHTML = out;
+                            }
+                        }                    
+                        
+        </script>
+    </head>
+    <body>
+        <h1 class="irGreen">Irish Trains</h1>
+        <button id="btnGetTrains">Get Train Status</button>
+        <div id="result"></div>
+    </body>
+</html>
